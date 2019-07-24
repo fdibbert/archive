@@ -13,6 +13,7 @@ public class main {
 
     public static EXTENSIONS parseName(File file) throws unknownExtension {
         String str = file.getName();
+        if (str.lastIndexOf(".") == -1) throw new unknownExtension(file.getAbsolutePath());
         str = str.substring(str.lastIndexOf('.'));
         if (".rar".equals(str)) return EXTENSIONS.RAR;
         else if (".zip".equals(str)) return EXTENSIONS.ZIP;
