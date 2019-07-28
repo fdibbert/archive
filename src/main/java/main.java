@@ -10,23 +10,30 @@ enum EXTENSIONS {
 
 public class main {
 
+    private static boolean sort;
+
+    public static boolean getSort(){ return sort;}
 
     public static EXTENSIONS parseName(File file) throws unknownExtension {
         String str = file.getName();
         if (str.lastIndexOf(".") == -1) throw new unknownExtension(file.getAbsolutePath());
         str = str.substring(str.lastIndexOf('.'));
-        if (".rar".equals(str)) return EXTENSIONS.RAR;
-        else if (".zip".equals(str)) return EXTENSIONS.ZIP;
+        if (str.endsWith(".rar")) return EXTENSIONS.RAR;
+        else if (str.endsWith(".zip")) return EXTENSIONS.ZIP;
         else throw new unknownExtension(file.getName());
     }
 
     public static void main(String[] args) {
-        if (args.length != 1){
+        if (args.length < 1 && args.length > 2){
             System.out.println("Incorrect number of parametrs");
             return ;
         }
+        if (args.length == 2) sort = "-s".equals(args[1]);
+        if (sort == false && args.length == 2) {
+            System.out.println("Unknown parametr in arg");
+            return ;
+        }
         File file = new File(args[0]);//args[0]
-        List<FileDecorator> list = new ArrayList<>();
         EXTENSIONS ext;
         try {
             ext = parseName(file);
@@ -34,15 +41,15 @@ public class main {
         catch(unknownExtension e){
             return ;
         }
-        AbstractArchive archive = null;
+        List<FileDecorator> list = new ArrayList<>();
+        AbstractArchive archive;
         if (ext.equals(EXTENSIONS.RAR)) archive = new rarArchive();
         else archive = new zipArchive();
         list = archive.createDecorator(file, ext);
         MTree tree = new MTree("Maintainer");
         Iterator<FileDecorator> iter = list.listIterator();
         while(iter.hasNext()) {
-            FileDecorator check = iter.next();
-            tree.add(check, tree);
+            tree.add(iter.next(), tree);
         }
         tree.printTree(tree, 0);
     }

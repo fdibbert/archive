@@ -18,7 +18,7 @@ public class zipArchive extends AbstractArchive {
         {
             ZipEntry entry;
             while((entry=zin.getNextEntry())!=null){
-                list.add(new FileDecorator(entry.getName(), entry.isDirectory(), ext));
+                list.add(new FileDecorator(entry.getName(), entry.isDirectory(), ext, entry.getCompressedSize()));
             }
         }
         catch(Exception ex){

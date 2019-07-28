@@ -1,8 +1,10 @@
 import com.github.junrar.Archive;
+import com.github.junrar.exception.RarException;
 import com.github.junrar.impl.FileVolumeManager;
 import com.github.junrar.rarfile.FileHeader;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +21,11 @@ public class rarArchive extends AbstractArchive {
             if (archive != null) {
                 FileHeader fh = archive.nextFileHeader();
                 while (fh != null) {
-                        list.add(new FileDecorator(fh, ext));
-                        fh = archive.nextFileHeader();
+                    list.add(new FileDecorator(fh, ext));
+                    fh = archive.nextFileHeader();
                 }
             }
-        } catch (Exception ex) {
+        } catch (RarException | IOException ex) {
             System.out.println(ex);
         }
         return list;

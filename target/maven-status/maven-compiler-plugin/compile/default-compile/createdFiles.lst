@@ -6,3 +6,4 @@ main.class
 zipArchive.class
 AbstractArchive.class
 MTree.class
+FileInfo.class

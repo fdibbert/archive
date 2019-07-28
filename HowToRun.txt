@@ -1,0 +1,3 @@
+To run from CMD go to target and exec jar with this with such parameters
+java -jar ArchiveTree.jar [PathTo file like C:\\Documents\Archive.zip or rar] and can add optional flag -s to sort file with extension->file size
+or compile project in IDE
